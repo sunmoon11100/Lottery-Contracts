@@ -5,7 +5,7 @@ pragma solidity >=0.5.0 <0.9.0;
 contract Lottery{
     uint public playersCount;                   // Счётчик уникальных участников
     address payable public owner;               // Адрес организатора
-    address payable public deposit;             // Адрес зачисления комиссии организатора
+    address payable internal deposit;           // Адрес зачисления комиссии организатора
     address payable public manager;             // Адрес менеджера
     address payable internal managersWallet;    // Адрес кошелька менеджера
     uint public ownersTax;                      // Доля организатора
@@ -50,6 +50,7 @@ contract Lottery{
         managersTips = 50;
         maxTickets = _maxTickets;
         ticketPrice = 0.01 ether;
+        state = State.Stopped;
     }
     
     /**
@@ -117,6 +118,10 @@ contract Lottery{
     function changeManagerWallet(address payable _newWallet) public onlyManager returns(bool){
         managersWallet = _newWallet;
         return true;
+    }
+    
+    function getManagerWallet() public view onlyManager returns(address payable){
+        return managersWallet;
     }
     
     /**
