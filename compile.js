@@ -19,5 +19,7 @@ const input = JSON.stringify({
         }
     }
 }); 
+output = JSON.parse(solc.compile(input));
+const contracts = output.contracts['Lottery.sol'];
 
-module.exports = JSON.parse(solc.compile(input)).contracts['Lottery.sol'];
+module.exports = {"abi":contracts.Lottery.abi,"bytecode":contracts.Lottery.evm.bytecode.object};

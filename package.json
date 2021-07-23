@@ -4,10 +4,10 @@
   "description": "",
   "main": "compile.js",
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --timeout 40000"
   },
   "repository": {
     "type": "git",
