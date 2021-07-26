@@ -173,6 +173,8 @@ contract Lottery{
         pickWinner();
     }
     // Завершение лотереи, отправка выигрыша и комиссий
+    // ПЕРЕДЕЛАТЬ. КОНТРАКТ НЕ ДОЛЖЕН ДЕЛАТЬ ТРАНЗАКЦИИ. ЖЕЛАЮЩИЕ САМИ ВЫЗЫВАЮТ ФУНКЦИИ, САМИ ОПЛАЧИВАЮТ ТРАНЗАКЦИИ
+    //
     function pickWinner() internal {
         uint r = random();
         address payable winner;
@@ -181,17 +183,19 @@ contract Lottery{
         
         // Вычисляем, сколько должно уйти победителю за вычетом комиссии организатора
         uint winnerPrize = (getBalance()/100)*(100 - ownersTax);
-        winner.transfer(winnerPrize);
+        winner.transfer(winnerPrize); // ТУТ СДЕЛАТЬ ЗАПИСЬ В МАППИНГ
+
+        // ЗДЕСЬ ДОБАВИТЬ ЗАПИСЬ В МАППИНГ ДЛЯ СЕБЯ 
         
         // Если менеджер и организатор не одно лицо, то выделяем долю и менеджеру
         if(managersWallet != deposit){
             uint tips;
             tips = (getBalance()/100)*(100 - (100 - managersTips)); 
-            managersWallet.transfer(tips);
+            managersWallet.transfer(tips); // И ТУТ СДЕЛАТЬ ЗАПИСЬ В МАППИНГ
         }
         
         // Радуем организатора остатком тортика в конце вечеринки
-        deposit.transfer(getBalance());
+        deposit.transfer(getBalance()); // И ТУТ СДЕЛАТЬ ЗАПИСЬ В МАППИНГ
         
         // Обнуляем всё для новой вечеринки
         cleanParty();
