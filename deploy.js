@@ -1,7 +1,8 @@
+import mnemonic from './MNEMONIC.js';
+
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const Web3 = require('web3');
-const {abi, bytecode} = require('./compile.js');
-const mnemonic = require('./MNEMONIC.js')
+const {interface, bytecode} = require('./compile');
 const provider = new HDWalletProvider(
     mnemonic,
     'https://rinkeby.infura.io/v3/5f63e1484039412f87d13fbc5edd262f'
@@ -13,10 +14,12 @@ const deploy = async () => {
 
     console.log("Attempting to deploy from account", accounts[0]);
 
-    const result = await new web3.eth.Contract(JSON.parse(abi))
+    const result = await new web3.eth.Contract(JSON.parse(interface))
         .deploy({data: bytecode, arguments: ["Hi there!"]})
             .send({gas: "1000000", from: accounts[0]})
     console.log("Contract deployed to", result.options.address);
 };
 
-deploy();
+const result = deploy();
+console.log(result.abi);
+//export default result;

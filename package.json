@@ -23,6 +23,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "@truffle/hdwallet-provider": "^1.4.2",
     "ganache-cli": "^6.12.2",
     "mocha": "^9.0.2",
     "react": "^17.0.2",
